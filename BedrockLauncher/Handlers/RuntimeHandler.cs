@@ -95,44 +95,25 @@ namespace BedrockLauncher.Handlers
 
         private static RegistryView GetCurrentView()
         {
-            if (RuntimeInformation.ProcessArchitecture == Architecture.X64) return RegistryView.Registry64;
-            else if (RuntimeInformation.ProcessArchitecture == Architecture.X86) return RegistryView.Registry32;
-            else return RegistryView.Default;
+            return RuntimeInformation.ProcessArchitecture switch
+            {
+                Architecture.X64 => RegistryView.Registry64,
+                Architecture.X86 => RegistryView.Registry32,
+                _ => RegistryView.Default
+            };
         }
+
         public static void ValidateOSArchitecture()
         {
-            var Architecture = RuntimeInformation.OSArchitecture;
-            bool canRun;
-            switch (Architecture)
+            var currentArch = RuntimeInformation.OSArchitecture;
+
+            if (currentArch != Architecture.X64)
             {
-                case Architecture.Arm:
-                    ShowError("Unsupported Architexture", "This application can not run on ARM computers");
-                    canRun = false;
-                    break;
-                case Architecture.Arm64:
-                    ShowError("Unsupported Architexture", "This application can not run on ARM computers");
-                    canRun = false;
-                    break;
-                case Architecture.X86:
-                    canRun = true;
-                    break;
-                case Architecture.X64:
-                    canRun = true;
-                    break;
-                default:
-                    ShowError("Unsupported Architexture", "Unable to determine architexture, not supported");
-                    canRun = false;
-                    break;
-            }
-
-            if (!canRun) Environment.Exit(0);
-
-
-            void ShowError(string title, string message)
-            {
-                MessageBox.Show(message, title);
+                MessageBox.Show($"The architecture '{currentArch}' is not supported. This application can only run on x64 computers.", "Unsupported Architecture");
+                Environment.Exit(0);
             }
         }
+
         public static void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
             Trace.WriteLine(e.Exception.ToString());

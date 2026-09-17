@@ -44,7 +44,7 @@ namespace BedrockLauncher.UI.Pages.Common
 
         private void ErrorScreenViewCrashButton_Click(object sender, RoutedEventArgs e)
         {
-            var logPath = Path.Combine(AppContext.BaseDirectory, LogManager.Configuration.FindTargetByName<FileTarget>("allfile").FileName.Render(new LogEventInfo()));
+            var logPath = Path.Combine(AppContext.BaseDirectory, LogManager.Configuration.FindTargetByName<FileTarget>("allfile").FileName.Render(LogEventInfo.CreateNullEvent()));
             Process.Start("notepad.exe", logPath);
         }
     }

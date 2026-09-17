@@ -18,17 +18,13 @@ namespace BedrockLauncher.Handlers
     {
         public static SortDescription? GetInstallationSortDescriptor()
         {
-            switch (Properties.LauncherSettings.Default.InstallationsSortMode)
+            return Properties.LauncherSettings.Default.InstallationsSortMode switch
             {
-                case InstallationSort.LatestPlayed:
-                    return new SortDescription(nameof(BLInstallation.LastPlayedT), ListSortDirection.Descending);
-                case InstallationSort.Name:
-                    return new SortDescription(nameof(BLInstallation.DisplayName), ListSortDirection.Ascending);
-                case InstallationSort.None:
-                    return null;
-                default:
-                    return new SortDescription(nameof(BLInstallation.LastPlayedT), ListSortDirection.Descending);
-            }
+                InstallationSort.LatestPlayed => new SortDescription(nameof(BLInstallation.LastPlayedT), ListSortDirection.Descending),
+                InstallationSort.Name => new SortDescription(nameof(BLInstallation.DisplayName), ListSortDirection.Ascending),
+                InstallationSort.None => null,
+                _ => new SortDescription(nameof(BLInstallation.LastPlayedT), ListSortDirection.Descending)
+            };
         }
         public static string InstallationsSearchFilter { get; set; } = string.Empty;
 

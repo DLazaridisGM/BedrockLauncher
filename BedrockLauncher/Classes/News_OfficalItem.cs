@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -65,6 +66,9 @@ namespace BedrockLauncher.Classes.Launcher
         public override string Title { get => title; }
         public override string Link { get => readMoreLink; }
         public override string Tag { get => category; }
-        public override string Date { get => date.ToString(); }
+
+        // TODO: Localize to the language selected in the launcher.
+        // e.g. date.ToString("D", CultureInfo.GetCultureInfo("en-us"));
+        public override string Date { get => date.ToString("D"); }
     }
 }

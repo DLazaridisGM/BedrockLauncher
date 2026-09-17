@@ -274,10 +274,12 @@ namespace BedrockLauncher.Downloaders
         {
             var (Name, Version, ProcessorArchitecture) = await MCVersionExtensions.GetCommonPackageValuesAsync(file);
 
-            VersionType Type;
-            if (Name == "Microsoft.MinecraftUWP") Type = VersionType.Release;
-            else if (Name == "Microsoft.MinecraftWindowsBeta") Type = VersionType.Preview;
-            else throw new Exception("That's not a Minecraft APPX file silly!"); //TODO: Localize String
+            VersionType Type = Name switch
+            {
+                "Microsoft.MinecraftUWP" => VersionType.Release,
+                "Microsoft.MinecraftWindowsBeta" => VersionType.Preview,
+                _ => throw new Exception("That's not a Minecraft APPX file silly!") //TODO: Localize String
+            };
 
             return new MCVersion(UUID, PackageID, Version, Type, ProcessorArchitecture);
         }

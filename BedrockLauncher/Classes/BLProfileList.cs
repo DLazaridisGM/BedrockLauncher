@@ -1,21 +1,22 @@
-﻿using System;
+﻿using BedrockLauncher.Classes;
+using BedrockLauncher.Enums;
+using BedrockLauncher.Handlers;
+using BedrockLauncher.UpdateProcessor.Classes;
+using BedrockLauncher.UpdateProcessor.Enums;
+using BedrockLauncher.ViewModels;
+using JemExtensions;
+using Newtonsoft.Json;
+using PostSharp.Patterns.Model;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BedrockLauncher.Classes;
-using JemExtensions;
-using Newtonsoft.Json;
-using BedrockLauncher.Enums;
-using PostSharp.Patterns.Model;
-using System.ComponentModel;
 using System.Xml.Linq;
-using BedrockLauncher.ViewModels;
-using BedrockLauncher.Handlers;
-using BedrockLauncher.UpdateProcessor.Classes;
-using BedrockLauncher.UpdateProcessor.Enums;
 using Windows.Networking.NetworkOperators;
 
 namespace BedrockLauncher.Classes
@@ -846,8 +847,8 @@ namespace BedrockLauncher.Classes
 
         public void Installation_Add(BLInstallation installation)
         {
-            if (CurrentProfile == null) return;
-            if (CurrentInstallations == null) return;
+            if (CurrentProfile == null || CurrentInstallations == null) return;
+
             if (!CurrentInstallations.Any(x => x.InstallationUUID == installation.InstallationUUID))
             {
                 CurrentInstallations.Add(installation);
@@ -857,8 +858,8 @@ namespace BedrockLauncher.Classes
 
         public void Installation_Move(BLInstallation installation, bool moveUp)
         {
-            if (CurrentProfile == null) return;
-            if (CurrentInstallations == null) return;
+            if (CurrentProfile == null || CurrentInstallations == null) return;
+
             if (CurrentInstallations.Any(x => x.InstallationUUID == installation.InstallationUUID))
             {
                 int oldIndex = CurrentInstallations.FindIndex(x => x.InstallationUUID == installation.InstallationUUID);
@@ -881,8 +882,8 @@ namespace BedrockLauncher.Classes
 
         public void Installation_Clone(BLInstallation installation)
         {
-            if (CurrentProfile == null) return;
-            if (CurrentInstallations == null) return;
+            if (CurrentProfile == null || CurrentInstallations == null) return;
+
             if (CurrentInstallations.Any(x => x.InstallationUUID == installation.InstallationUUID))
             {
                 string newName = installation.DisplayName;
@@ -901,14 +902,14 @@ namespace BedrockLauncher.Classes
         }
         public void Installation_Create(string name, MCVersion version, string directory, string iconPath = null, bool isCustom = false)
         {
-            if (CurrentProfile == null) return;
-            if (CurrentInstallations == null) return;
+            if (CurrentProfile == null || CurrentInstallations == null) return;
+
             if (string.IsNullOrEmpty(name) || name == BedrockLauncher.Localization.Language.LanguageManager.GetResource("VersionEntries_UnnamedInstallation").ToString()) name = Guid.NewGuid().ToString();
             GetVersionParams(version, out VersioningMode versioningMode, out string version_uuid);
             BLInstallation new_installation = new BLInstallation()
             {
                 DisplayName = name,
-                IconPath = (iconPath == null ? version?.InstallationIconFileName ?? Constants.INSTALLATIONS_FALLBACK_ICONPATH : iconPath),
+                IconPath = iconPath ?? version?.InstallationIconFileName ?? Constants.INSTALLATIONS_FALLBACK_ICONPATH,
                 IsCustomIcon = isCustom,
                 DirectoryName = ValidatePathName(name),
                 VersioningMode = versioningMode,
@@ -920,9 +921,7 @@ namespace BedrockLauncher.Classes
 
         public BLInstallation SelectOrCreateVersionInstallation(MCVersion version)
         {
-            if (version == null) return null;
-            if (CurrentProfile == null) return null;
-            if (CurrentInstallations == null) return null;
+            if (version == null || CurrentProfile == null || CurrentInstallations == null) return null;
 
             string installationUUID = GetVersionsPageSelectedInstallationUUID(version);
             string displayName = GetVersionsPageSelectedInstallationName(version);
@@ -986,8 +985,8 @@ namespace BedrockLauncher.Classes
         }
         public void Installation_Delete(BLInstallation installation, bool deleteData = true)
         {
-            if (CurrentProfile == null) return;
-            if (CurrentInstallations == null) return;
+            if (CurrentProfile == null || CurrentInstallations == null) return;
+
             if (deleteData)
             {
                 try { installation.DeleteUserData(); }

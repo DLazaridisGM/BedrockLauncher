@@ -59,7 +59,6 @@ namespace BedrockLauncher.Downloaders
                     PatchNote_Launcher newItem = new PatchNote_Launcher(item);
 
                     if (isFirstItem) newItem.isLatest = true; isFirstItem = false;
-                    newItem.isBeta = item.url.Contains(BedrockLauncher.Core.GithubAPI.BETA_URL);
 
                     viewModel.LauncherNewsItems.Add(newItem);
                 }
