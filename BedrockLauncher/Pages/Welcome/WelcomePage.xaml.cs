@@ -24,6 +24,7 @@ namespace BedrockLauncher.Pages.Welcome
         public static WelcomePageOne pageOne;
         public static WelcomePageTwo pageTwo;
         public static WelcomePageThree pageThree;
+        public static WelcomePageFour pageFour;
         public static WelcomePageFive pageFive;
 
         public void Init(WelcomePage page) => welcomePage = page;
@@ -40,6 +41,9 @@ namespace BedrockLauncher.Pages.Welcome
                     break;
                 case 3:
                     Page3();
+                    break;
+                case 4:
+                    Page4();
                     break;
                 case 5:
                     Page5();
@@ -77,6 +81,19 @@ namespace BedrockLauncher.Pages.Welcome
 
             void Page3()
             {
+                if (pageThree == null)
+                {
+                    pageThree = new WelcomePageThree();
+                    welcomePage.WelcomePageFrame.Navigate(pageThree);
+                }
+                else
+                {
+                    welcomePage.WelcomePageFrame.Navigate(pageThree);
+                }
+            }
+
+            void Page4()
+            {
                 if (MainDataModel.Default.Config.profiles.Count() != 0)
                 {
                     Properties.LauncherSettings.Default.CurrentProfileUUID = MainDataModel.Default.Config.profiles.FirstOrDefault().Key;
@@ -85,14 +102,14 @@ namespace BedrockLauncher.Pages.Welcome
                 }
                 else
                 {
-                    if (pageThree == null)
+                    if (pageFour == null)
                     {
-                        pageThree = new WelcomePageThree();
-                        welcomePage.WelcomePageFrame.Navigate(pageThree);
+                        pageFour = new WelcomePageFour();
+                        welcomePage.WelcomePageFrame.Navigate(pageFour);
                     }
                     else
                     {
-                        welcomePage.WelcomePageFrame.Navigate(pageThree);
+                        welcomePage.WelcomePageFrame.Navigate(pageFour);
                     }
                 }
             }
