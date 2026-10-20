@@ -30,31 +30,22 @@ namespace BedrockLauncher.Pages.Welcome
             {
                 FixedRadioButton.IsChecked = false;
                 PortableRadioButton.IsChecked = true;
-            }
-            else
-            {
-                FixedRadioButton.IsChecked = true;
-                PortableRadioButton.IsChecked = false;
-            }
-            if (Properties.LauncherSettings.Default.PortableMode)
-            {
                 StorageDirectoryTextBox.IsEnabled = false;
                 StorageDirectoryTextBox.Text = "%PORTABLE%";
                 PathBox.IsEnabled = false;
             }
             else
             {
-                PathBox.IsEnabled = true;
-                StorageDirectoryTextBox.IsEnabled = true;
+                var fixedDir = Properties.LauncherSettings.Default.FixedDirectory;
+                var defaultDir = MainDataModel.Default.FilePaths.DefaultLocation;
 
-                if (Properties.LauncherSettings.Default.FixedDirectory != string.Empty)
-                {
-                    StorageDirectoryTextBox.Text = Properties.LauncherSettings.Default.FixedDirectory;
-                }
-                else
-                {
-                    StorageDirectoryTextBox.Text = MainDataModel.Default.FilePaths.DefaultLocation;
-                }
+                FixedRadioButton.IsChecked = true;
+                PortableRadioButton.IsChecked = false;
+                StorageDirectoryTextBox.IsEnabled = true;
+                PathBox.IsEnabled = true;
+
+                StorageDirectoryTextBox.Text = string.IsNullOrEmpty(fixedDir) ? defaultDir : fixedDir;
+
             }
         }
 
