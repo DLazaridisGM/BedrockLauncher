@@ -48,9 +48,9 @@ namespace BedrockLauncher.Pages.News.Launcher
 
             if (v != null)
             {
-                if (!ViewModels.NewsViewModel.Default.Launcher_ShowBetas && v.isBeta) return false;
-                else if (!ViewModels.NewsViewModel.Default.Launcher_ShowReleases && !v.isBeta) return false;
-                else return true;
+                if (v.isBeta) return ViewModels.NewsViewModel.Default.Launcher_ShowBetas;
+                else if (v.prerelease) return ViewModels.NewsViewModel.Default.Launcher_ShowPreReleases;
+                else return ViewModels.NewsViewModel.Default.Launcher_ShowReleases;
             }
             else return false;
         }
