@@ -27,9 +27,11 @@ namespace BedrockLauncher.Pages.News.Launcher
 
         private bool HasPreloaded = false;
 
+        private ViewModels.NewsViewModel viewModel => ViewModels.NewsViewModel.Default;
+
         public LauncherNewsPage()
         {
-            this.DataContext = ViewModels.NewsViewModel.Default;
+            this.DataContext = viewModel;
             InitializeComponent();
         }
 
@@ -44,15 +46,19 @@ namespace BedrockLauncher.Pages.News.Launcher
 
         public bool Filter_PatchNotes(object obj)
         {
-            PatchNote_Launcher v = obj as PatchNote_Launcher;
+            if (obj is not PatchNote_Launcher v)
+                return false;
 
-            if (v != null)
-            {
-                if (v.isBeta) return ViewModels.NewsViewModel.Default.Launcher_ShowBetas;
-                else if (v.prerelease) return ViewModels.NewsViewModel.Default.Launcher_ShowPreReleases;
-                else return ViewModels.NewsViewModel.Default.Launcher_ShowReleases;
-            }
-            else return false;
+            if (!viewModel.Launcher_ShowBetas && v.isBeta)
+                return false;
+
+            if (!viewModel.Launcher_ShowPreReleases && v.prerelease)
+                return false;
+
+            if (!viewModel.Launcher_ShowReleases && !v.isBeta && !v.prerelease)
+                return false;
+
+            return true;
         }
 
 
@@ -68,7 +74,7 @@ namespace BedrockLauncher.Pages.News.Launcher
 
         public async Task RefreshNews(bool force = true) => await this.Dispatcher.InvokeAsync(() =>
         {
-            if (force) Task.Run(() => Downloaders.NewsDownloader.UpdateLauncherFeed(ViewModels.NewsViewModel.Default));
+            if (force) Task.Run(() => Downloaders.NewsDownloader.UpdateLauncherFeed(viewModel));
             var view = CollectionViewSource.GetDefaultView(UpdatesList.ItemsSource) as CollectionView;
             if (view != null) view.Filter = Filter_PatchNotes;
         });
