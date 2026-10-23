@@ -17,8 +17,7 @@ namespace BedrockLauncher.Classes.Launcher
         {
             get
             {
-                if (isBeta) return Brushes.Gray;
-                else if (prerelease) return Brushes.DarkOrange;
+                if (prerelease) return Brushes.DarkOrange;
                 else return Brushes.Lime;
             }
         }

@@ -25,20 +25,9 @@ namespace BedrockLauncher.Pages.News.Launcher
 
         public static void LoadChangelog(PatchNote_Launcher item)
         {
-            string channel;
-
-            if (item.isBeta) 
-            {
-                channel = Localization.Language.LanguageManager.GetResource("GeneralText_Beta") as string ?? "Beta";
-            }
-            else if (item.prerelease)
-            {
-                channel = "Pre-Release";
-            }
-            else
-            {
-                channel = Localization.Language.LanguageManager.GetResource("GeneralText_Releases") as string ?? "Release";
-            }
+            string channel = item.prerelease
+                ? "Pre-Release"
+                : Localization.Language.LanguageManager.GetResource("GeneralText_Releases") as string ?? "Release";
 
             string header_title = string.Format("{0} {1}", channel, item.tag_name);
             string html = Markdown.ToHtml(item.body);
