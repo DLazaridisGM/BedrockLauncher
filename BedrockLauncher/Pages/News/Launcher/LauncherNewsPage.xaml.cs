@@ -1,5 +1,6 @@
 ﻿using BedrockLauncher.Classes.Launcher;
 using BedrockLauncher.Downloaders;
+using BedrockLauncher.ViewModels;
 using BedrockLauncher.Handlers;
 using MdXaml;
 using System;
@@ -27,7 +28,7 @@ namespace BedrockLauncher.Pages.News.Launcher
 
         private bool HasPreloaded = false;
 
-        private ViewModels.NewsViewModel viewModel => ViewModels.NewsViewModel.Default;
+        private NewsViewModel viewModel => ViewModels.NewsViewModel.Default;
 
         public LauncherNewsPage()
         {
@@ -49,16 +50,13 @@ namespace BedrockLauncher.Pages.News.Launcher
             if (obj is not PatchNote_Launcher v)
                 return false;
 
-            if (!viewModel.Launcher_ShowBetas && v.isBeta)
-                return false;
+            if (v.isBeta)
+                return viewModel.Launcher_ShowBetas;
 
-            if (!viewModel.Launcher_ShowPreReleases && v.prerelease)
-                return false;
+            if (v.prerelease)
+                return viewModel.Launcher_ShowPreReleases;
 
-            if (!viewModel.Launcher_ShowReleases && !v.isBeta && !v.prerelease)
-                return false;
-
-            return true;
+            return viewModel.Launcher_ShowReleases;
         }
 
 

@@ -52,14 +52,12 @@ namespace BedrockLauncher.Pages.Play.PatchNotes
             if (obj is not PatchNotes_Game_Item v)
                 return false;
 
-            if (!downloader.ShowBetas && v.isBeta)
-                return false;
+            if (v.isBeta)
+                return downloader.ShowBetas;
 
-            if (!downloader.ShowReleases && !v.isBeta)
-                return false;
-
-            return true;
+            return downloader.ShowReleases;
         }
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
