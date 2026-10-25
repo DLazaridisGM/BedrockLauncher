@@ -11,7 +11,7 @@
         <Border Background="#FF313131" Height="1" VerticalAlignment="Bottom" Margin="0,0,0,55" />
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
             <TextBlock Visibility="Visible" HorizontalAlignment="Center"  Text="Important Notice" Foreground="White" FontFamily="/BedrockLauncher;component/Resources/fonts/#Noto Sans" FontSize="24" Margin="0,30,0,0" FontWeight="Bold"/>
-            <TextBlock HorizontalAlignment="Center" TextAlignment="Center" Text="Bedrock Launcher DOES NOT help you pirate Minecraft in any way!&#x0a;&#x0a;It is an unofficial utility tool for version management,&#x0a;and you strictly need to own&#x0a;a legally purchased copy of Minecraft for Windows or&#x0a;have an active Xbox Game Pass subscription&#x0a;associated with your Microsoft account to use it." Foreground="White" FontFamily="/BedrockLauncher;component/Resources/fonts/#Noto Sans" FontSize="14" Margin="28.5,15,28.5,20" TextWrapping="Wrap"/>
+            <TextBlock HorizontalAlignment="Center" TextAlignment="Center" Text="Bedrock Launcher DOES NOT help you pirate Minecraft in any way!&#x0a;&#x0a;It is an unofficial utility tool for version management,&#x0a;and you need to own a legally purchased copy of Minecraft for Windows&#x0a;or have an active Xbox Game Pass subscription associated with&#x0a;your Microsoft account to use it." Foreground="White" FontFamily="/BedrockLauncher;component/Resources/fonts/#Noto Sans" FontSize="14" Margin="28.5,15,28.5,20" TextWrapping="Wrap"/>
         </StackPanel>
         <CheckBox x:Name="Acknowledge" VerticalAlignment="Bottom" Margin="0,0,0,19" IsChecked="False" HorizontalAlignment="Center" Foreground="White">
             <StackPanel VerticalAlignment="Center" Margin="0,2,0,0">
