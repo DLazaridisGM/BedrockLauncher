@@ -50,9 +50,6 @@ namespace BedrockLauncher.Pages.News.Launcher
             if (obj is not PatchNote_Launcher v)
                 return false;
 
-            if (v.isBeta)
-                return viewModel.Launcher_ShowBetas;
-
             if (v.prerelease)
                 return viewModel.Launcher_ShowPreReleases;
 

@@ -31,15 +31,12 @@ namespace BedrockLauncher.Handlers
                 var list = new List<GithubReleaseInfo>();
                 list.AddRange(ReleaseNotes);
                 list.AddRange(PrereleaseNotes);
-                list.AddRange(BetaNotes);
                 list.Sort((x, y) => y.published_at.CompareTo(x.published_at));
                 return list;
             }
         }
         private List<GithubReleaseInfo> ReleaseNotes { get; set; } = new List<GithubReleaseInfo>();
         private List<GithubReleaseInfo> PrereleaseNotes { get; set; } = new List<GithubReleaseInfo>();
-        private List<GithubReleaseInfo> BetaNotes { get; set; } = new List<GithubReleaseInfo>();
-
 
 
         #endregion
@@ -75,10 +72,8 @@ namespace BedrockLauncher.Handlers
             try
             {
                 ReleaseNotes.Clear();
-                BetaNotes.Clear();
                 PrereleaseNotes.Clear();
 
-                await Beta_GetJSON();
                 await Release_GetJSON();
                 return CompareUpdate();
             }
@@ -99,16 +94,6 @@ namespace BedrockLauncher.Handlers
                 if (note.prerelease) PrereleaseNotes.Add(note);
                 else ReleaseNotes.Add(note);
             }
-
-            foreach (var entry in ReleaseNotes) entry.isBeta = false;
-            foreach (var entry in PrereleaseNotes) entry.isBeta = false;
-        }
-
-        private async Task Beta_GetJSON()
-        {
-            var url = GithubAPI.BETA_URL;
-            BetaNotes = await GetUpdateNotes(url);
-            foreach (var entry in BetaNotes) entry.isBeta = true;
         }
 
 
